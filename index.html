@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>حذف الحساب والبيانات</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', 'Cairo', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #333;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      direction: rtl;
+    }
+    
+    .container {
+      max-width: 900px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      overflow: hidden;
+      animation: slideUp 0.8s ease-out;
+    }
+    
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .header {
+      background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+      color: white;
+      padding: 40px 30px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      animation: rotate 20s linear infinite;
+    }
+    
+    @keyframes rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 2;
+      margin-top: 10px;
+    }
+    
+    .app-name {
+      font-size: 3rem;
+      font-weight: bold;
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 2;
+      letter-spacing: 2px;
+    }
+    
+    .app-first {
+      color: #000000;
+    }
+    
+    .app-second {
+      color: #FBBB7C;
+    }
+    
+    .header p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .content {
+      padding: 40px 30px;
+    }
+    
+    .info-section {
+      background: #f8f9fa;
+      border-radius: 15px;
+      padding: 30px;
+      margin-bottom: 30px;
+      border-right: 5px solid #007acc;
+    }
+    
+    .info-section h2 {
+      color: #007acc;
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .info-section h2::before {
+      content: '🗑️';
+      font-size: 1.5rem;
+    }
+    
+    .data-list {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .data-list li {
+      background: white;
+      margin: 10px 0;
+      padding: 15px 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .data-list li:hover {
+      transform: translateX(-5px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .data-list li::before {
+      content: '✓';
+      background: #28a745;
+      color: white;
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+    
+    .warning-section {
+      background: linear-gradient(135deg, #ffecd2, #fcb69f);
+      border-radius: 15px;
+      padding: 25px;
+      margin: 30px 0;
+      border-right: 5px solid #ff6b6b;
+    }
+    
+    .warning-section h3 {
+      color: #d63031;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .warning-section h3::before {
+      content: '⚠️';
+      font-size: 1.2rem;
+    }
+    
+    .contact-section {
+      background: linear-gradient(135deg, #a8edea, #fed6e3);
+      border-radius: 15px;
+      padding: 25px;
+      text-align: center;
+      margin-top: 30px;
+    }
+    
+    .contact-section h3 {
+      color: #2d3436;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    
+    .contact-section h3::before {
+      content: '📧';
+      font-size: 1.2rem;
+    }
+    
+    .email-link {
+      display: inline-block;
+      background: #007acc;
+      color: white;
+      text-decoration: none;
+      padding: 12px 25px;
+      border-radius: 25px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+    }
+    
+    .email-link:hover {
+      background: #005a9e;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,122,204,0.3);
+    }
+    
+    .delete-button {
+      display: inline-block;
+      background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+      color: white;
+      text-decoration: none;
+      padding: 15px 30px;
+      border-radius: 25px;
+      font-weight: bold;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      margin-top: 20px;
+      text-align: center;
+      box-shadow: 0 5px 15px rgba(255,107,107,0.3);
+    }
+    
+    .delete-button:hover {
+      background: linear-gradient(135deg, #ee5a52, #dc3545);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(255,107,107,0.4);
+    }
+    
+    .steps-section {
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      margin: 30px 0;
+      border: 2px solid #e9ecef;
+    }
+    
+    .steps-section h3 {
+      color: #007acc;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .steps-section h3::before {
+      content: '📋';
+      font-size: 1.2rem;
+    }
+    
+    .step {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin: 15px 0;
+      padding: 15px;
+      background: #f8f9fa;
+      border-radius: 10px;
+    }
+    
+    .step-number {
+      background: #007acc;
+      color: white;
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+    
+    @media (max-width: 768px) {
+      .header h1 {
+        font-size: 2rem;
+      }
+      
+      .app-name {
+        font-size: 2.5rem;
+      }
+      
+      .content {
+        padding: 20px 15px;
+      }
+      
+      .info-section,
+      .warning-section,
+      .contact-section,
+      .steps-section {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="app-name">
+        <span class="app-first">fun</span><span class="app-second">ify</span>
+      </div>
+      <h1>طلب حذف الحساب والبيانات</h1>
+      <p>نحن نحترم خصوصيتك ونسعى لحماية بياناتك الشخصية</p>
+    </div>
+    
+    <div class="content">
+      <div class="steps-section">
+        <h3>خطوات حذف الحساب</h3>
+        <div class="step">
+          <div class="step-number">1</div>
+          <span>انتقل إلى الملف الشخصي في حسابك</span>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <span>ابحث عن خيار "حذف الحساب"</span>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <span>اضغط على زر الحذف </span>
+        </div>
+      </div>
+      
+      <div class="info-section">
+        <h2>البيانات التي سيتم حذفها نهائياً</h2>
+        <ul class="data-list">
+          <li>الاسم الكامل</li>
+          <li>عنوان البريد الإلكتروني</li>
+          <li>كلمة المرور (المشفرة)</li>
+          <li> التسجيلات الصوتيه</li>
+          <li>جميع البيانات المرتبطة بالحساب</li>
+        </ul>
+      </div>
+      
+      <div class="warning-section">
+        <h3>تنبيه مهم</h3>
+        <p>عملية حذف الحساب <strong>غير قابلة للإلغاء</strong>. بمجرد تأكيد الحذف، لن تتمكن من استرداد حسابك أو بياناتك مرة أخرى. يرجى التأكد من قرارك قبل المتابعة.</p>
+      </div>
+      
+      <div class="contact-section">
+        <h3>هل تحتاج مساعدة؟</h3>
+        <p>إذا واجهت أي مشاكل في حذف الحساب أو كان لديك أي استفسارات، لا تتردد في التواصل معنا</p>
+        <a href="mailto:funify.joke@gmail.com" class="email-link">funify.joke@gmail.com</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
